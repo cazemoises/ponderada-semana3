@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import editImg from '../../assets/edit-svgrepo-com.svg';
 import deleteImg from '../../assets/delete-2-svgrepo-com.svg'
+import { Link } from 'react-router-dom';
 
 interface TextProps {
     before?: string,
@@ -96,6 +97,24 @@ export const ActionButton = styled.button<{type: string}>`
     min-height: 2rem;
     width: 2rem;
     flex: 1;
+    background-color: transparent;
+    background-image: url(${(props) => props.type === "edit" ? editImg : deleteImg });
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    transition: .2s;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+`
+
+export const EditButton = styled(Link)`
+    padding: .5rem;
+    min-height: 2rem;
+    width: 2rem;
+    flex: 1;
     background-image: url(${(props) => props.type === "edit" ? editImg : deleteImg });
     background-size: contain;
     background-repeat: no-repeat;
@@ -125,3 +144,11 @@ export const CardBack = styled(CardSide)`
     transform: rotateY(180deg);
     /* Additional styles for the back of the card */
 `;
+
+export const Empty = styled.p`
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: 500;
+`

@@ -10,7 +10,7 @@ export default function Nav() {
     return (
         <Container>
             <Li>
-                <AddItem>
+                <AddItem to='/user/create'>
                     Adicionar mais pessoas
                 </AddItem>
             </Li>

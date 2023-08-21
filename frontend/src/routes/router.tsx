@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { GlobalStyle } from '../GlobalStyle/GlobalStyle';
 
-import Home from '../pages/Home';
-import LoginPage from '../pages/LoginPage';
+import Home from '../pages/Home/Home';
+import LoginPage from '../pages/LoginPage/LoginPage';
 import Nav from '../components/Common/Nav/Nav';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,7 +27,8 @@ export default function Router() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/login' element={<LoginPage />} />
-                <Route path='/register' element={<UserForm />} />
+                <Route path='/user/create/' element={<UserForm />} />
+                <Route path='/user/:type/:id' element={<UserForm />} />
             </Routes>
         </BrowserRouter>
     );

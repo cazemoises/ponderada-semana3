@@ -5,8 +5,11 @@ import {
     TextsContainer,
     ActionsRow,
     ActionButton,
-    Text
+    Text,
+    Empty,
+    EditButton
 } from './Styles';
+import { SuccessToast } from '../toasts/Toasts';
 
 export default function PeopleList() {
 
@@ -19,71 +22,40 @@ export default function PeopleList() {
 
     useEffect(() => {
 
+        // alert("Toque nos cards para ver detalhes de endereço!")
+
         const getUsers = async () => {
             
             const users = await fetch('http://localhost:8000/user');
             const data = await users.json();
 
-            setTimeout(() =>{ console.log(data.success?.data); setUsers(data.success?.data)}, 500);
+            setTimeout(() =>{ 
+                console.log(data.success?.data); setUsers(data.success?.data)
+            }, 500);
 
         }
         
         getUsers();
 
-    }, [])
-    
+    }, []);
+
+    const handleDelete = async (user_id: string) => {
+
+        await fetch('http://localhost:8000/user/' + user_id, {
+            method: "DELETE"
+        });
+
+        window.location.reload();
+        
+    }
 
     return (
         <Container>
-            <Item onClick={handleCardClick} className={isFlipped ? 'flipped' : ''}>
-                <div className="card-front">
-                    <Text 
-                        before="Username:"
-                        after="bia1013"
-                    />
-                    <Text 
-                        before="Nome:"
-                        after="Beatriz Donateli" 
-                    />
-                    <Text 
-                        before="Idade:"
-                        after="18" 
-                    />
-                    <Text
-                        before="Nascimento:"
-                        after={"11/12/2004"} 
-                    />
-                </div>
-                <div className="card-back">
-                    <TextsContainer>
-                        <Text 
-                            before="Estado:"
-                            after="Espírito Santo"
-                        />
-                        <Text 
-                            before='Cidade'
-                            after='Linhares'
-                        />
-                        <Text 
-                            before='Rua:'
-                            after="Rua X"
-                        />
-                        <Text 
-                            before="Número:"
-                            after="89"
-                        />
-                    </TextsContainer>
-                </div>
-                <ActionsRow>
-                    <ActionButton type="edit" />
-                    <ActionButton type="delete" />
-                </ActionsRow>
-            </Item>
             {
-                users.map((item: any, index) => {
+                users.length !== 0 ? users.map((item: any, index) => {
                     return (
-                        <Item key={index} onClick={handleCardClick} className={isFlipped ? 'flipped' : ''}>
-                            <div className="card-front">
+                        <Item key={index} className={isFlipped ? 'flipped' : ''}>
+                            <div onClick={handleCardClick} className="card-front">
                                 <Text 
                                     before="Username:"
                                     after={item.username}
@@ -101,74 +73,35 @@ export default function PeopleList() {
                                     after={item.birthdate}
                                 />
                             </div>
-                            <div className="card-back">
+                            <div onClick={handleCardClick} className="card-back">
                                 <TextsContainer>
                                     <Text 
                                         before="Estado:"
-                                        after={item.state}
+                                        after={item.address?.state}
                                     />
                                     <Text 
                                         before='Cidade'
-                                        after={item.city}
+                                        after={item.address?.city}
                                     />
                                     <Text 
                                         before='Rua:'
-                                        after={item.street}
+                                        after={item.address?.street}
                                     />
                                     <Text 
                                         before="Número:"
-                                        after={item.number}
+                                        after={item.address?.number}
                                     />
                                 </TextsContainer>
                             </div>
+                            <ActionsRow>
+                                <EditButton to={`/user/edit/${item.id}`} type='edit' />
+                                <ActionButton onClick={() => {handleDelete(item.id)}} type="delete" />
+                            </ActionsRow>
                         </Item>
                     )
-                })
-            }
-            <Item onClick={handleCardClick} className={isFlipped ? 'flipped' : ''}>
-                <div className="card-front">
-                    <Text 
-                        before="Username:"
-                        after="bia1013"
-                    />
-                    <Text 
-                        before="Nome:"
-                        after="Beatriz Donateli" 
-                    />
-                    <Text 
-                        before="Idade:"
-                        after="18" 
-                    />
-                    <Text
-                        before="Nascimento:"
-                        after={"11/12/2004"} 
-                    />
-                </div>
-                <div className="card-back">
-                    <TextsContainer>
-                        <Text 
-                            before="Estado:"
-                            after="Espírito Santo"
-                        />
-                        <Text 
-                            before='Cidade'
-                            after='Linhares'
-                        />
-                        <Text 
-                            before='Rua:'
-                            after="Rua X"
-                        />
-                        <Text 
-                            before="Número:"
-                            after="89"
-                        />
-                    </TextsContainer>
-                </div>
-                <ActionsRow>
-                    <ActionButton type="edit" />
-                    <ActionButton type="delete" />
-                </ActionsRow>
-            </Item>
+                }) :
+                <Empty>Nenhum usuário encontrado.</Empty>
+                }
         </Container>
     );
 }

@@ -62,13 +62,14 @@ export const StyledSVG = styled(ReactSVG)`
     
 `
 
-export const AddItem = styled.button`
+export const AddItem = styled(Link)`
 color: #fff;
 border-radius: .5rem;
 border: 1px solid #fff;
 padding: .5rem;
 background: transparent;
 display: flex;
+text-decoration: none;
 align-items: center;
 text-align: center;
 justify-content: center;

@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { redirect  } from 'react-router-dom';
+import { redirect, useParams  } from 'react-router-dom';
 
 import { Form } from './Styles';
 import Input from '../Common/Input/Input';
 import { Container, H2, Button } from './Styles';
+import { AutoRedirect } from '../../contexts/AuthContext';
 
 const UserForm = () => {
 
-    const [isRedirecting, setIsRedirecting] = useState(false); 
+    const { type, id } = useParams();
 
     const [formData, setFormData] = useState({
+        id: '',
         first_name: '',
         last_name: '',
         username: '',
@@ -23,6 +25,37 @@ const UserForm = () => {
         number: '',
         password: ''
     });
+
+    useEffect(() => {
+
+        const getUser = async () => {
+            
+            const response = await fetch('http://localhost:8000/user/' + id)
+            const data = await response.json();
+
+            console.log(data)
+            console.log(data.success.data);
+
+            setFormData({
+                id: data.success.data.id,
+                first_name: data.success.data.first_name,
+                last_name: data.success.data.last_name,
+                username: data.success.data.username,
+                age: data.success.data.age,
+                birthdate: data.success.data.birthdate,
+                state: data.success.data.address.state,
+                city: data.success.data.address.city,
+                street: data.success.data.address.street,
+                number: data.success.data.address.number,
+                password: ''
+            })
+
+        };
+    
+        type === "edit" && getUser();
+
+    }, [])
+    
 
     const handleChange = (e: any) => {
 
@@ -39,7 +72,21 @@ const UserForm = () => {
 
         console.log(formData);
         
-        const response: any = await fetch('http://localhost:8000/user', {
+        if (type === "edit") {
+
+            const response = await fetch('http://localhost:8000/user', {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            return toast.success('Atualizado com sucesso.');
+            
+        }
+
+        const response = await fetch('http://localhost:8000/user', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -60,7 +107,16 @@ const UserForm = () => {
 
     return (
     <Container>
-      <H2>Cadastro de Usuário</H2>
+        {
+            type === "edit" &&
+            <AutoRedirect />
+        }
+      <H2>
+        { type === "edit" ?
+            "Editar" :
+            "Criar"
+        } Usuário
+      </H2>
       <Form onSubmit={handleSubmit}>
         <div>
             <Input 
@@ -129,19 +185,22 @@ const UserForm = () => {
             />
         </div>
         <div>
-          <Input
+            <Input
                 label='Estado'
+                disabled={type === "edit"}
                 type="text"
                 variant='white'
                 placeholder='Seu estado aqui'    
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
-            />        </div>
+            />        
+        </div>
         <div>
             <Input
                 label='Cidade'
                 type="text"
+                disabled={type === "edit"}
                 variant='white'
                 placeholder='Sua cidade aqui'    
                 name="city"
@@ -153,6 +212,7 @@ const UserForm = () => {
             <Input
                 type="text"
                 label='Rua'
+                disabled={type === "edit"}
                 variant='white'
                 placeholder='Sua rua aqui'    
                 name="street"
@@ -164,6 +224,7 @@ const UserForm = () => {
             <Input
                 type="number"
                 label='Número da casa'
+                disabled={type === "edit"}
                 variant='white'
                 placeholder='Número da casa'    
                 name="number"
@@ -171,7 +232,9 @@ const UserForm = () => {
                 onChange={handleChange}
             />           
         </div>
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit">
+            {type === "edit" ? "Editar" : "Cadastrar" }
+        </Button>
         <Button onClick={() => {history.back()}} type="submit">Voltar</Button>
       </Form>
     </Container>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { Navigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import { SuccessToast } from '../../components/toasts/Toasts';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -90,7 +92,20 @@ const LoginPage = () => {
 
     if (data.success) {
       login(); // Chama a função de login do contexto de autenticação
+    } else {
+
+      return toast.error("Usuário ou senha inválidos.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+    });
+
     }
+
+
   };
 
   // Se o usuário já estiver autenticado, redireciona para a página de dashboard
@@ -115,7 +130,7 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <LoginButton onClick={handleLogin}>Entrar</LoginButton>
-        <RegisterButton to='/register'>Cadastrar-se</RegisterButton>
+        <RegisterButton to='/user/create'>Cadastrar-se</RegisterButton>
       </LoginForm>
     </LoginPageContainer>
   );
