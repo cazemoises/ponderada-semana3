@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
       res.status(400).json({ 
         status: 400,
         error: {
-            title: "Erro com os dados do usuário."
+            title: userResult.error.title
         }
     });
     }

@@ -11,6 +11,23 @@ export const user_services = {
 
         try {
 
+            const existing_user = await User.findOne({
+                where: {
+                    username: data.username
+                }
+            });
+
+            if (existing_user) {
+
+                return {
+                    status: 400,
+                    error: {
+                        title: "Nome de usuário em uso."
+                    }
+                }
+
+            }
+
             const user = await User.create({
                 username: data.username,
                 first_name: data.first_name,

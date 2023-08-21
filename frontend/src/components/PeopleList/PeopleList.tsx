@@ -105,19 +105,19 @@ export default function PeopleList() {
                                 <TextsContainer>
                                     <Text 
                                         before="Estado:"
-                                        after="Espírito Santo"
+                                        after={item.state}
                                     />
                                     <Text 
                                         before='Cidade'
-                                        after='Linhares'
+                                        after={item.city}
                                     />
                                     <Text 
                                         before='Rua:'
-                                        after="Rua X"
+                                        after={item.street}
                                     />
                                     <Text 
                                         before="Número:"
-                                        after="89"
+                                        after={item.number}
                                     />
                                 </TextsContainer>
                             </div>
