@@ -91,7 +91,7 @@ const LoginPage = () => {
     console.log(data);
 
     if (data.success) {
-      login(); // Chama a função de login do contexto de autenticação
+      login();
     } else {
 
       return toast.error("Usuário ou senha inválidos.", {
@@ -108,7 +108,6 @@ const LoginPage = () => {
 
   };
 
-  // Se o usuário já estiver autenticado, redireciona para a página de dashboard
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }

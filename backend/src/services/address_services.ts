@@ -10,7 +10,11 @@ export const address_services = {
 
         try {
 
+            console.log("no service");
+            console.log(data.user_id);
+
             const address = await Address.create({
+                user_id: data.user_id,
                 state: data.state,
                 city: data.city,
                 street: data.street,
@@ -37,6 +41,18 @@ export const address_services = {
             };
 
         };
+
+    },
+
+    async findByUserId(user_id: number) {
+
+        const address = await Address.findOne({
+            where: {
+                user_id: user_id
+            }
+        });
+
+        return address;
 
     }
 

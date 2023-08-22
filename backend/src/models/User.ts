@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize"
 import { sequelize } from "../config/pg"
+import { Address } from "./Address";
 
 export interface IUser extends Model {
     id: number,
@@ -11,7 +12,7 @@ export interface IUser extends Model {
     birthdate: Date
 }
 
-export const User = sequelize.define<IUser>("User", {
+const User = sequelize.define<IUser>("User", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -46,3 +47,10 @@ export const User = sequelize.define<IUser>("User", {
     tableName: "user",
     timestamps: false
 });
+
+User.hasOne(Address, {
+    foreignKey: "user_id",
+    as: "address"
+});
+
+export { User };

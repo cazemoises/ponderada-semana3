@@ -22,7 +22,7 @@ export default function PeopleList() {
 
     useEffect(() => {
 
-        // alert("Toque nos cards para ver detalhes de endereço!")
+        alert("Toque nos cards para ver mais detalhes!")
 
         const getUsers = async () => {
             

@@ -1,8 +1,11 @@
 import { user_services } from "../services/user_services";
 import { Transaction } from "sequelize";
 
+import { Request, Response } from 'express';
+
 export const user_controller = {
-  async store(req: any, res: any, transaction: Transaction) {
+  
+  async store(req: Request, res: Response, transaction: Transaction) {
 
     try {
       const result = await user_services.store(req.body, transaction);
@@ -18,7 +21,7 @@ export const user_controller = {
       };
     }
   },
-  async login(req: any, res: any) {
+  async login(req: Request, res: Response) {
 
     try {
 
@@ -39,9 +42,32 @@ export const user_controller = {
       
     }
   },
-  async findAll(req: any, res: any) {
+  async findAll(req: Request, res: Response) {
 
     const response = await user_services.findAll();
+
+    return res.status(response.status).json(response);
+
+  },
+  async delete(req: Request, res: Response) {
+
+    const user_id = parseInt(req.params.user_id);
+
+    const response = await user_services.delete(user_id);
+
+    return res.status(response.status).json(response);
+
+  },
+  async findById(req: Request, res: Response) {
+
+    const response = await user_services.findById(parseInt(req.params.id));
+
+    return res.status(response.status).json(response);
+
+  },
+  async update(req: Request, res: Response) {
+    
+    const response = await user_services.update(req.body);
 
     return res.status(response.status).json(response);
 

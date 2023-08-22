@@ -3,6 +3,7 @@ import { sequelize } from "../config/pg";
 
 export interface IAddress extends Model {
     id: number,
+    user_id: number,
     state: string,
     city: string,
     street: string,
@@ -30,6 +31,13 @@ export const Address = sequelize.define<IAddress>("Address", {
     number: { 
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    user_id: {
+        type:DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: "User"
+        }
     }
 }, {
     tableName: "address",

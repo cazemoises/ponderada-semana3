@@ -127,7 +127,6 @@ export const EditButton = styled(Link)`
     }
 `
 
-// Styles for card flip effect
 export const CardSide = styled.div`
     position: absolute;
     width: 100%;
