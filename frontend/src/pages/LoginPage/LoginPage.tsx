@@ -76,7 +76,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
 
-    const response: any = await fetch('http://localhost:8000/user/login', {
+    const response: any = await fetch('http://3.213.184.35:8000/user/login', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

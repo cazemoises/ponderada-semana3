@@ -30,7 +30,7 @@ const UserForm = () => {
 
         const getUser = async () => {
             
-            const response = await fetch('http://localhost:8000/user/' + id)
+            const response = await fetch('http://3.213.184.35:8000/user/' + id)
             const data = await response.json();
 
             console.log(data)
@@ -74,7 +74,7 @@ const UserForm = () => {
         
         if (type === "edit") {
 
-            const response = await fetch('http://localhost:8000/user', {
+            const response = await fetch('http://3.213.184.35:8000/user', {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
@@ -86,7 +86,7 @@ const UserForm = () => {
             
         }
 
-        const response = await fetch('http://localhost:8000/user', {
+        const response = await fetch('http://3.213.184.35:8000/user', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

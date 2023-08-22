@@ -26,7 +26,7 @@ export default function PeopleList() {
 
         const getUsers = async () => {
             
-            const users = await fetch('http://localhost:8000/user');
+            const users = await fetch('http://3.213.184.35:8000/user');
             const data = await users.json();
 
             setTimeout(() =>{ 
@@ -41,7 +41,7 @@ export default function PeopleList() {
 
     const handleDelete = async (user_id: string) => {
 
-        await fetch('http://localhost:8000/user/' + user_id, {
+        await fetch('http://3.213.184.35:8000/user/' + user_id, {
             method: "DELETE"
         });
 
