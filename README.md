@@ -87,3 +87,5 @@ Nesta seção, você aprenderá a configurar uma conexão local com o banco de d
 
 ## Pronto para Começar!
 Você concluiu com sucesso a configuração do projeto de aplicação web integrada com banco de dados! Agora que todos os componentes estão configurados e em execução, você está pronto para começar a explorar e interagir com a aplicação.
+
+Você pode conferir um vídeo da aplicação rodando [nesse link](https://drive.google.com/file/d/1e0dB2_IbVBFVIdOGzBsFBAhMo4nhNDvn/view?usp=sharing).
